@@ -15,7 +15,7 @@ install.packages("imagefx")
 ##### CARGAR IMAGEN FLIR Y SU METADATA
 jpg es una forma de compresión de datos usada para imagenes, flir emplea este formato para almacenar grandes volumenes de información la cual deberá ser extraida para su analisis posterior
 |imagen FLIR.jpg RAW|
-|------------|
+|:---------:|
 |![flir_1](https://user-images.githubusercontent.com/68933213/124394170-32e15780-dccc-11eb-95da-25e4a4caa5ca.jpg)|
 Las funciones necesarias para extraer la matriz de datos termicos en una imagen FLIR  se describen en los vectores img y cams, el primero esta encargado de obtener toda la información de la imagen y el segundo se encarga de extraer la metadata que se utilizara para las transformaciones de la matriz de datos en informacion util
 ###### CARGAR IMAGEN FLIR
@@ -61,8 +61,9 @@ temperatura <- Thermimage::raw2temp(img, ObjectEmissivity, OD, ReflT, AtmosT, IR
 Thermimage::plotTherm(temperatura, h=h, w=w, minrangeset = 0, maxrangeset = 25)
 ```
 |Imagen flir desde metadata|
-| ---------------|
+|:--------:|
 |![flir_raw](https://user-images.githubusercontent.com/68933213/124394362-2b6e7e00-dccd-11eb-85e7-bcfdfde62834.jpg)|
+
 
 Para filtrar es necesario definir un filtro y guardar la imagen generada para ser utilizada en pasos posteiores, como bien se explico antes la definicion de este paso es a discreción del usuario por lo que aqui solo se presentara un ejemplo
 
@@ -83,9 +84,9 @@ if(max>(percentil90+5){
  print("ERROR")
 }
 ```
-|![img_temp](https://user-images.githubusercontent.com/68933213/124394083-bfd7e100-dccb-11eb-929b-cffc3293394f.png)|
-|---------------|
-|Antes y despues de realizar filtro de metadata, derecha sin filtrar e izquierda con filtro de datos por percentil|
+|![img_temp](https://user-images.githubusercontent.com/68933213/124394083-bfd7e100-dccb-11eb-929b-cffc3293394f.png)|![flir1_1](https://user-images.githubusercontent.com/68933213/124402177-8f5c6b00-dcfc-11eb-8e58-7c49e65943de.jpg)|
+|:-----|:------|
+|Antes y despues de realizar filtro de metadata|Filtro realizado mediante condicion max>16 y filtrando por percentil90|
 
 ***CORTAR IMAGEN FILTRADA***
 Para mejorar el calculo de area se recomienda recortar el plot generado en pasos anteriores, se puede realizar de varias formas y aqui se presentara 2 formas de lograr esto 
@@ -99,13 +100,32 @@ image2(flir_crop[[1]],asp=1)
 dev.off()
 ```
 |![flir_crop](https://user-images.githubusercontent.com/68933213/124396165-f87cb800-dcd5-11eb-837d-0e80bf0ff6d1.jpg)|
-|-----------|
+|:-----:|
 |Con esta función es posible eliminar la barra de temperaturas, no obstante, no se consigue una imagen aislada|
+ ```
+ flir = jpeg::readJPEG(imageFile, native = TRUE)
+ output = flir(1:480, 1:480) # PIXELES DE EJEMPLO NO TIENEN REPRESENTACION EN LA IMAGEN
+ writeJPEG(image = output, target = flir_recortado)
+ 
+ ```
+| ![crop](https://user-images.githubusercontent.com/68933213/124402284-4e188b00-dcfd-11eb-91db-74f77eaa1dc8.jpg)|
+|:------:|
+|Imagen referencial de un corte sin parametros de grafico|
 
+Esta funcion si permite guardar una imagen sin los parametros del plot, no obstante hay que definir las coordenadas de pixeles a recortar
 
 ### ANALISIS POR CLUSTER IMAGING
 #### TRANSFORMAR IMAGEN JPG EN RGB
 CORRER EL CODIGO TAL CUAL, SOLO MODIFICANDO LA DIRECCION DE LA IMAGEN A USAR
+
+Se analizaron los cluster necesarios para definir la imagen, se obtuvo que se requieren solo 2 grupos para describir el FLIR posterior al filtro como se observa en el grafico silueta versus grupos
+|ANALISIS DE GRUPO DE COLOR|
+|:-------:|
+| ![cluster_optimos](https://user-images.githubusercontent.com/68933213/124401660-9a150100-dcf8-11eb-9553-5a07355aec41.png) |
+MAS DEL 90% DE LA IMAGEN SE CONFORMA SOLO DE 2 GRUPOS DE COLORES
+Aun asi en los pasos siguientes el analisis se realiza considerando 3 grupos de colores debido a la existencia del blanco en los plot obtenidos, sin embargo, si se aisla la imagen sin el fondo del grafico no se requeriria considerar un 3r cluster.
+
+El archivo JPG debe ser descrito en los pixeles fundamentales rojo, azul y verde (RGB) y luego agrupados en grupos de colores mediante la funcion clara(), esta posee dos argumentos: El primero es el dataframe del RGB y el segundo es el numero de cluster a considerar
 ```
 test_flir <- jpeg::readJPEG("~/imagen.jpg")
 dm <- dim(test_flir) #VECTOR QUE CONTIENE LAS DIMENSIONES DE LA IMAGEN
@@ -140,3 +160,8 @@ pie(dominantColours$Freq, labels = dominantColours$distribution,
     xlab = "Color",
     ylab = "Frecuencia")
  ```
+|Analisis del plot|Analisis de imagen cortada manualmente|
+|:----:|:------:|
+![analisis1_1](https://user-images.githubusercontent.com/68933213/124402226-e6624000-dcfc-11eb-97fa-2686d00e3d85.jpg)|![analisis_cluster_frec](https://user-images.githubusercontent.com/68933213/124402262-2a554500-dcfd-11eb-8e2d-2c2c881fe11a.png)|
+
+
