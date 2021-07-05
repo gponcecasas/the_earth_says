@@ -123,9 +123,10 @@ Se analizaron los cluster necesarios para definir la imagen, se obtuvo que se re
 |:-------:|
 | ![cluster_optimos](https://user-images.githubusercontent.com/68933213/124401660-9a150100-dcf8-11eb-9553-5a07355aec41.png) |
 MAS DEL 90% DE LA IMAGEN SE CONFORMA SOLO DE 2 GRUPOS DE COLORES
-Aun asi en los pasos siguientes el analisis se realiza considerando 3 grupos de colores debido a la existencia del blanco en los plot obtenidos, sin embargo, si se aisla la imagen sin el fondo del grafico no se requeriria considerar un 3r cluster.
+|Aun asi en los pasos siguientes el analisis se realiza considerando 3 grupos de colores debido a la existencia del blanco en los plot obtenidos, sin embargo, si se aisla la imagen sin el fondo del grafico no se requeriria considerar un 3r cluster|
 
 El archivo JPG debe ser descrito en los pixeles fundamentales rojo, azul y verde (RGB) y luego agrupados en grupos de colores mediante la funcion clara(), esta posee dos argumentos: El primero es el dataframe del RGB y el segundo es el numero de cluster a considerar
+
 ```
 test_flir <- jpeg::readJPEG("~/imagen.jpg")
 dm <- dim(test_flir) #VECTOR QUE CONTIENE LAS DIMENSIONES DE LA IMAGEN
