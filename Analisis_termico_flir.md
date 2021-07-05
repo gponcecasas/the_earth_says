@@ -8,21 +8,21 @@ library(jpeg)       #ABRIR Y GUARDAR IMAGENES EN JPEG - PNG - TIFF
 library(cluster)    #ANALISIS DE COMPONENTES EN UNA IMAGEN RGB
 
 Aqui se definen 2 funciones que generar filtros sin diferenciar las caracteristicas propias de cada elemento, por lo que requiere una supervisión y evaluación manual del operador ya que se ha observado que el analisis por cluster no diferencia cada elemento ingresado y eso es algo que queda pendiente
-
-
-### FILTRO SEGÚN -> max-percentil90<=2
-x se define como el directorio de elementos a utilizar y se puede describir de la siguiente manera:
+```
+analizar1 <- function(x, y){---}
+```
+***_"x"_*** se describe como el directorio de elementos a utilizar y se puede define de la siguiente manera:
 ```
 allFiles=list.files(path="C:/Users/CARPETA_DE_ELEMENTOS", pattern=".jpg", full.names=TRUE)
 flir <- allFiles
 ```
-y se describe como el directorio donde se van a guardar los analisis y se puede definir como:
+***_"y"_*** se describe como el directorio donde se van a guardar los analisis y se puede definir como:
 
 ```
 allAnalisis=list.files(path="C:/Users/CARPETA_DE_ANALISIS", pattern=".jpg", full.names=TRUE)
 Analisis <- allAnalisis
 ```
-Entonces las funciones quedan:
+### FILTRO SEGÚN -> max-percentil90<=2
 
 ```
 analizar1 <- function(x, y){
@@ -188,7 +188,7 @@ for(i in 1:length(flir)){
 ```
 
 ## VERSIÓN 3
-Aqui las dos funciones no se definen por separado, sino, que se aplica el analisis de forma bruta en un Loop, esto se piensa para automatizar el analisis, no obstante, aun presenta problemas con el output de la clausterización ya que de forma individual se diferencian las areas de calor pero al aplicar a un grupo esta diferenciacion se pierde
+Aqui las dos funciones no se definen por separado, sino, que se aplica el analisis de forma bruta en un Loop, esto se piensa para automatizar el analisis, no obstante, aun presenta problemas con el output de la clausterización ya que de forma individual se diferencian las areas de calor pero al aplicar a un grupo esta diferenciacion entre elementos se pierde
 
 ```
 library(Thermimage)
