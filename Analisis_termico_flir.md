@@ -1,13 +1,16 @@
 # The Earth Says
 # VERSIÓN 2
 
- ## LIBRERIAS Y FUNCIONES----
+ ## LIBRERIAS Y FUNCIONES
+ 
+```
 library(Thermimage) #PAQUETE DE ANALISIS TERMICAS
 library(fields)     #PERMITE ROTAR IMAGENES
 library(jpeg)       #ABRIR Y GUARDAR IMAGENES EN JPEG - PNG - TIFF
 library(cluster)    #ANALISIS DE COMPONENTES EN UNA IMAGEN RGB
-
+```
 Aqui se definen 2 funciones que generar filtros sin diferenciar las caracteristicas propias de cada elemento, por lo que requiere una supervisión y evaluación manual del operador ya que se ha observado que el analisis por cluster no diferencia cada elemento ingresado y eso es algo que queda pendiente
+
 ```
 analizar1 <- function(x, y){---}
 ```
